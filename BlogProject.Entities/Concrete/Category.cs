@@ -7,6 +7,6 @@ namespace BlogProject.Entities.Concrete
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        //public ICollection<Article> Articles { get; set; }
+        public ICollection<Article> Articles { get; set; }
     }
 }
