@@ -1,5 +1,6 @@
 ﻿using BlogProject.Shared.Entities.Abstract;
 using System;
+using System.Collections.Generic;
 
 namespace BlogProject.Entities.Concrete
 {
@@ -18,5 +19,6 @@ namespace BlogProject.Entities.Concrete
         public Category Category { get; set; } //Navigation Property
         public int UserId { get; set; }
         public User User { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }
