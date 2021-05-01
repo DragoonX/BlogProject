@@ -17,6 +17,6 @@ namespace BlogProject.Entities.Concrete
         public int CategoryId { get; set; }
         public Category Category { get; set; } //Navigation Property
         public int UserId { get; set; }
-        //public User User { get; set; }
+        public User User { get; set; }
     }
 }
