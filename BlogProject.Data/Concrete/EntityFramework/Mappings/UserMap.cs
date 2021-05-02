@@ -1,6 +1,8 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Text;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -35,6 +37,26 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
             builder.ToTable("Users");
 
             builder.HasOne<Role>(x => x.Role).WithMany(role => role.Users).HasForeignKey(x => x.RoleId);
+
+            builder.HasData(new User
+            {
+                Id = 1,
+                RoleId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                Username = "johndoe",
+                Email = "johndoe@xmail.com",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Description = "İlk Admin kullanıcı",
+                Note = "Admin kullanıcısı.",
+                PasswordHash = Encoding.ASCII.GetBytes("0192023a7bbd73250516f069df18b500"), //admin123
+                Picture = "https://www.iconninja.com/files/763/509/129/warrior-ninja-avatar-samurai-icon.png"
+            });
 
         }
     }

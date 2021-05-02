@@ -1,6 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -22,6 +23,44 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
             builder.ToTable("Comments");
 
             builder.HasOne(x => x.Article).WithMany(article => article.Comments).HasForeignKey(x => x.ArticleId);
+
+            builder.HasData(new Comment
+            {
+                Id = 1,
+                ArticleId = 1,
+                Text = "Başarılı bir yazı.",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = ""
+            }, new Comment
+            {
+                Id = 2,
+                ArticleId = 1,
+                Text = "Tebrikler",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = ""
+            }, new Comment
+            {
+                Id = 3,
+                ArticleId = 3,
+                Text = "Javascript güzelmiş :)",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = ""
+            });
         }
     }
 }

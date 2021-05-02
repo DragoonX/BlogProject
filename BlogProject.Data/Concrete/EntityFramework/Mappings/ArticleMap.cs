@@ -1,6 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -46,6 +47,73 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
                 .WithMany(user => user.Articles)
                 .HasForeignKey(x => x.UserId);
             builder.ToTable("Articles");
+
+            builder.HasData(new Article
+            {
+                Id = 1,
+                CategoryId = 1,
+                Title = "C# 9.0 ve .NET 5 Yenilikleri",
+                Content = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Bu yazılar öylesine oluşturulmuş yazılardır ve yer kaplamak amacıyla kullanılmaktadır.",
+                Thumbnail = "Default.jpg",
+                SeoAuthor = "John Doe",
+                SeoDescription = "C# 9.0 ve .NET 5 Yenilikleri hakkında yazılan yazılar.",
+                SeoTags = "C#, C# 9.0, .Net Framework, .Net 5, Entity Framework",
+                Date = DateTime.Now,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "İlk makale.",
+                UserId = 1,
+                ViewsCount = 100,
+                CommentCount = 1
+
+            }, new Article
+            {
+                Id = 2,
+                CategoryId = 2,
+                Title = "C++ 11 ve 15 Yenilikleri",
+                Content = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Bu yazılar öylesine oluşturulmuş yazılardır ve yer kaplamak amacıyla kullanılmaktadır. Gerçeklerle uzaktan yakından ilişkisi yoktur",
+                Thumbnail = "Default.jpg",
+                SeoAuthor = "John Doe",
+                SeoDescription = "C++ 11 ve 15 Yenilikleri hakkında yazılan yazılar.",
+                SeoTags = "C++, C++ 11, C++ 15",
+                Date = DateTime.Now,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "İkinci makale.",
+                UserId = 1,
+                ViewsCount = 38,
+                CommentCount = 0
+            }, new Article
+            {
+                Id = 3,
+                CategoryId = 3,
+                Title = "Javascript Nedir?",
+                Content = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Burada javascript dili ile ilgili bilgiler yer almaktadır.",
+                Thumbnail = "Default.jpg",
+                SeoAuthor = "John Doe",
+                SeoDescription = "Javascript Nedir? hakkında yazılan yazılar.",
+                SeoTags = "Javascript, Js, Ecmascript, Vanillascript",
+                Date = DateTime.Now,
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "Üçüncü makale.",
+                UserId = 1,
+                ViewsCount = 22,
+                CommentCount = 1
+
+            });
         }
     }
 }

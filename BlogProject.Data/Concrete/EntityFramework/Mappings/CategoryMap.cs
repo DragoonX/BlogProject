@@ -1,6 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -22,6 +23,46 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
             builder.Property(x => x.Note).HasMaxLength(500);
             builder.ToTable("Categories");
 
+            builder.HasData(new Category
+            {
+                Id = 1,
+                Name = "C#",
+                Description = "C# programlama dili ile ilgili yazılar.",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "C# blog kategorisidir.",
+            },
+            new Category
+            {
+                Id = 2,
+                Name = "C++",
+                Description = "C++ programlama dili ile ilgili yazılar.",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "C++ blog kategorisidir.",
+            },
+            new Category
+            {
+                Id = 3,
+                Name = "Javascript",
+                Description = "Javascript programlama dili ile ilgili yazılar.",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "Javascript blog kategorisidir.",
+            }
+            );
         }
     }
 }

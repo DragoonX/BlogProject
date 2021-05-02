@@ -1,6 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -23,6 +24,19 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
             builder.Property(x => x.Note).HasMaxLength(500);
             builder.ToTable("Roles");
 
+            builder.HasData(new Role
+            {
+                Id = 1,
+                Name = "Admin",
+                Description = "Admin rolü, tüm haklara sahiptir.",
+                IsActive = true,
+                IsDeleted = false,
+                CreatedByName = "InitialCreate",
+                CreatedDate = DateTime.Now,
+                ModifiedByName = "InitialCreate",
+                ModifiedDate = DateTime.Now,
+                Note = "Admin rolüdür."
+            });
         }
     }
 }
