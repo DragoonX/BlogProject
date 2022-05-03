@@ -1,11 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlogProject.Entities.Dtos
 {
@@ -62,6 +58,9 @@ namespace BlogProject.Entities.Dtos
         [DisplayName("Aktif mi?")]
         [Required(ErrorMessage = "{0} alanı zorunludur.")]
         public bool IsActive { get; set; }
+
+        [DisplayName("Silinsin mi?")]
+        [Required(ErrorMessage = "{0} alanı zorunludur.")]
         public bool IsDeleted { get; set; }
     }
 }
