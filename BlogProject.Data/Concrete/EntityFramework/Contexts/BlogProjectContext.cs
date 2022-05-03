@@ -14,7 +14,7 @@ namespace BlogProject.Data.Concrete.EntityFramework.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=LAPTOP-K3V215HA\SA;Database=BlogProjectDb;User Id=sa;Password=123;MultipleActiveResultSets=true;Connect Timeout=30;");
+            optionsBuilder.UseSqlServer(@"Server=localhost;Database=BlogProjectDb;User Id=sa;Password=1234;MultipleActiveResultSets=true;Connect Timeout=30;");
             // for migration : "dotnet ef migrations add InitialCreate" and "dotnet ef database update"
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
