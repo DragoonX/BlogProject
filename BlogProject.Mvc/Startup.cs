@@ -17,6 +17,8 @@ namespace BlogProject.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews().AddRazorRuntimeCompilation(); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
+            services.AddAutoMapper(typeof(Startup)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
         }
 
@@ -26,16 +28,20 @@ namespace BlogProject.Mvc
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages(); //projede olmayan bir sayfa istenildiðinde 404 Not Found uyarýsýna yönlendirir.
             }
 
+            app.UseStaticFiles(); //tema dosyalarý(resim, css veya js)
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapAreaControllerRoute(
+                    name: "Admin",
+                    areaName: "Admin",
+                    pattern: "Admin/{controller=Home}/{action=Index}/{id?}"
+                    ); //MVC'de Admin area'sýna eriþim saðlanýr.
+                endpoints.MapDefaultControllerRoute(); //ilk açýlýþta default olarak HomeController ve Index.cshtml'e yönlendirir.
             });
         }
     }
