@@ -1,3 +1,4 @@
+using BlogProject.Services.AutoMapper.Profiles;
 using BlogProject.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +19,7 @@ namespace BlogProject.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation(); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
-            services.AddAutoMapper(typeof(Startup)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
+            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
         }
 
