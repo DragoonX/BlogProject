@@ -15,8 +15,8 @@ namespace BlogProject.Shared.Data.Abstract
         Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         //GetAllAsync'da ilk parametre varsayılan olarak null getirilir. Burası null ise tüm değerler, değilse belirtilen filtredeki değerler getirilir.
         Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties);
-        Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
+        Task<T> AddAsync(T entity);
+        Task<T> UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         // Any fonksiyonu, bir kaydın daha önce eklenip eklenilmediğini kontrol eder.
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
