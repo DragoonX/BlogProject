@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BlogProject.Mvc
@@ -18,8 +20,12 @@ namespace BlogProject.Mvc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation(); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
-            services.AddAutoMapper(typeof(CategoryProfile),typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
+            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; //nested(içiçe) objelerde çevrimi saðlar.
+            }); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
+            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
         }
 

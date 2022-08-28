@@ -1,6 +1,10 @@
-﻿using BlogProject.Services.Abstract;
+﻿using BlogProject.Entities.Dtos;
+using BlogProject.Mvc.Areas.Admin.Models;
+using BlogProject.Services.Abstract;
+using BlogProject.Shared.Utilities.Extensions;
 using BlogProject.Shared.Utilities.Results.ComplexTypes;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BlogProject.Mvc.Areas.Admin.Controllers
@@ -22,9 +26,33 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult Add()
         {
             return PartialView("_CategoryAddPartial");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(CategoryAddDto categoryAddDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _categoryService.Add(categoryAddDto, "ANL");
+                if (result.ResultStatus == ResultStatus.Success)
+                {
+                    var categoryAddAjaxModel = JsonSerializer.Serialize(new CategoryAddAjaxViewModel
+                    {
+                        CategoryDto = result.Data,
+                        CategoryAddPartial = await this.RenderViewToStringAsync("_CategoryAddPartial", categoryAddDto)
+                    });
+                    return Json(categoryAddAjaxModel);
+                }
+            }
+            var categoryAddAjaxErrorModel = JsonSerializer.Serialize(new CategoryAddAjaxViewModel
+            {
+                CategoryAddPartial = await this.RenderViewToStringAsync("_CategoryAddPartial", categoryAddDto)
+            });
+            return Json(categoryAddAjaxErrorModel);
         }
     }
 }
