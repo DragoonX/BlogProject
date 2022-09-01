@@ -24,7 +24,6 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         {
             var result = await _categoryService.GetAllByNonDeleted();
             return View(result.Data);
-
         }
 
         [HttpGet]
