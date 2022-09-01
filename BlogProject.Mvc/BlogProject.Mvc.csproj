@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Content Remove="Areas\Admin\Views\Category\_CategoryAddPartial.cshtml" />
+    <Content Remove="Areas\Admin\Views\Category\_CategoryUpdatePartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\Category\_CategoryUpdatePartial.cshtml" />
     <None Include="Areas\Admin\Views\Category\_CategoryAddPartial.cshtml" />
   </ItemGroup>
 
