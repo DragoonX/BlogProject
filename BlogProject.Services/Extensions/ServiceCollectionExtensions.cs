@@ -13,7 +13,22 @@ namespace BlogProject.Services.Extensions
         public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddDbContext<BlogProjectContext>();
-            serviceCollection.AddIdentity<User,Role>().AddEntityFrameworkStores<BlogProjectContext>();
+            serviceCollection.AddIdentity<User, Role>(options =>
+            {
+                //user password options
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0; //özel karakterler
+                options.Password.RequireNonAlphanumeric = false;//noktalama ünlem vb işaretler
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+
+                //user username and email options
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+$";
+                options.User.RequireUniqueEmail = true;
+
+            }).AddEntityFrameworkStores<BlogProjectContext>();
+
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped<ICategoryService, CategoryManager>();
             serviceCollection.AddScoped<IArticleService, ArticleManager>();
