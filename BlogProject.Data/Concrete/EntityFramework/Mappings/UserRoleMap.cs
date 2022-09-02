@@ -9,7 +9,7 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.HasKey(r => new { r.UserId, r.RoleId });
-            builder.ToTable("AspNetRoleClaims");
+            builder.ToTable("AspNetUserRoles");
         }
     }
 }
