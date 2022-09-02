@@ -28,6 +28,22 @@ namespace BlogProject.Mvc
             services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString("/Admin/User/Login");
+                options.LogoutPath = new PathString("/Admin/User/Logout");
+                options.Cookie = new CookieBuilder()
+                {
+                    Name = "BlogProject",
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Strict, //bu þekilde kullanýlmalýdýr.
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest //gerçek iþ sýrasýnda always seçilmelidir.
+                };
+                options.SlidingExpiration = true; //kullanýcý ayný cookie ayarlarý ile belirtilen süre içinde giriþ yapabilir.
+                options.ExpireTimeSpan = System.TimeSpan.FromDays(7);
+                options.AccessDeniedPath = new PathString("/Admin/User/AccessDenied"); //giriþ yapan fakat yetkisi olmayan kullanýcýlarý ilgili adrese yönlendirir.
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
