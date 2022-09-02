@@ -25,6 +25,7 @@ namespace BlogProject.Mvc
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; //nested(içiçe) objelerde çevrimi saðlar.
             }); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
+            services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
         }
@@ -38,9 +39,12 @@ namespace BlogProject.Mvc
                 app.UseStatusCodePages(); //projede olmayan bir sayfa istenildiðinde 404 Not Found uyarýsýna yönlendirir.
             }
 
+            app.UseSession();
+
             app.UseStaticFiles(); //tema dosyalarý(resim, css veya js)
             app.UseRouting();
-
+            app.UseAuthentication(); //authentication ve authorization, routing ile endpoints arasýnda olmalýdýrlar.
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
