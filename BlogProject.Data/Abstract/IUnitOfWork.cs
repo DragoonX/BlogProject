@@ -8,8 +8,7 @@ namespace BlogProject.Data.Abstract
         IArticleRepository Articles { get; } // Orn kullanım: _unitOfWork.Articles.AddAsync()
         ICategoryRepository Categories { get; }
         ICommentRepository Comments { get; }
-        IRoleRepository Roles { get; }
-        IUserRepository Users { get; }
+
         // _unitOfWork.Articles.AddAsync(article);
         // _unitOfWork.Comments.AddAsync(comment);
         // _unitOfWork.SaveAsync();
