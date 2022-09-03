@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlogProject.Mvc.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -17,7 +18,6 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        [Area("Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -26,6 +26,12 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                 Users = users,
                 ResultStatus = ResultStatus.Success
             });
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return PartialView("_UserAddPartial");
         }
     }
 }

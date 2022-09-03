@@ -20,7 +20,7 @@
                 className: 'btn btn-warning',
                 action: function (e, dt, node, config) {
                     $.ajax({
-                        url: '/Admin/Category/GetAllCategories/")',
+                        url: '/Admin/User/GetAllCategories/")',
                         type: 'GET',
                         contentType: "application/json",
                         beforeSend: function () {
@@ -315,7 +315,7 @@
     //Datatable ends here
 
     $(function () {
-        const url = '/Admin/Category/Add/';
+        const url = '/Admin/User/Add/';
         const placeHolderDiv = $("#modalPlaceHolder");
         $("#btnAdd").click(function () {
             $.get(url).done(function (data) {
@@ -393,7 +393,7 @@
                     type: 'POST',
                     dataType: 'json',
                     data: { categoryId: id },
-                    url: '/Admin/Category/Delete/',
+                    url: '/Admin/User/Delete/',
                     success: function (data) {
                         const categoryDto = jQuery.parseJSON(data);
                         if (categoryDto.ResultStatus === 0) {
@@ -418,7 +418,7 @@
         });
     });
     $(function () {
-        const url = "/Admin/Category/Update";
+        const url = "/Admin/User/Update";
         const placeHolderDiv = $("#modalPlaceHolder");
         $(document).on("click", ".btn-update", function (event) {
             event.preventDefault();
