@@ -1,3 +1,4 @@
+using BlogProject.Mvc.AutoMapper.Profiles;
 using BlogProject.Services.AutoMapper.Profiles;
 using BlogProject.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,7 @@ namespace BlogProject.Mvc
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve; //nested(içiçe) objelerde çevrimi saðlar.
             }); //mvc uygulamasý olarak çalýþmasýný saðlar. Razor runtime ile view deðiþiklikleri tarayýcýya anýnda yansýr.
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
+            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
             services.ConfigureApplicationCookie(options =>
             {
