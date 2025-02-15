@@ -156,12 +156,12 @@ namespace BlogProject.Data.Migrations
                         {
                             Id = 1,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 9, 3, 0, 19, 25, 497, DateTimeKind.Local).AddTicks(9799),
+                            CreatedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(1968),
                             Description = "C# programlama dili ile ilgili yazılar.",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(896),
+                            ModifiedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2195),
                             Name = "C#",
                             Note = "C# blog kategorisidir."
                         },
@@ -169,12 +169,12 @@ namespace BlogProject.Data.Migrations
                         {
                             Id = 2,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1883),
+                            CreatedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2363),
                             Description = "C++ programlama dili ile ilgili yazılar.",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1886),
+                            ModifiedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2364),
                             Name = "C++",
                             Note = "C++ blog kategorisidir."
                         },
@@ -182,12 +182,12 @@ namespace BlogProject.Data.Migrations
                         {
                             Id = 3,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1891),
+                            CreatedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2367),
                             Description = "Javascript programlama dili ile ilgili yazılar.",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1892),
+                            ModifiedDate = new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2368),
                             Name = "Javascript",
                             Note = "Javascript blog kategorisidir."
                         });

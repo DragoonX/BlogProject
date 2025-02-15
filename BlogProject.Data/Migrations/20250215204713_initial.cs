@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlogProject.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -248,17 +248,17 @@ namespace BlogProject.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedByName", "CreatedDate", "Description", "IsActive", "IsDeleted", "ModifiedByName", "ModifiedDate", "Name", "Note" },
-                values: new object[] { 1, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 497, DateTimeKind.Local).AddTicks(9799), "C# programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(896), "C#", "C# blog kategorisidir." });
+                values: new object[] { 1, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(1968), "C# programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2195), "C#", "C# blog kategorisidir." });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedByName", "CreatedDate", "Description", "IsActive", "IsDeleted", "ModifiedByName", "ModifiedDate", "Name", "Note" },
-                values: new object[] { 2, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1883), "C++ programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1886), "C++", "C++ blog kategorisidir." });
+                values: new object[] { 2, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2363), "C++ programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2364), "C++", "C++ blog kategorisidir." });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "CreatedByName", "CreatedDate", "Description", "IsActive", "IsDeleted", "ModifiedByName", "ModifiedDate", "Name", "Note" },
-                values: new object[] { 3, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1891), "Javascript programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2022, 9, 3, 0, 19, 25, 498, DateTimeKind.Local).AddTicks(1892), "Javascript", "Javascript blog kategorisidir." });
+                values: new object[] { 3, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2367), "Javascript programlama dili ile ilgili yazılar.", true, false, "InitialCreate", new DateTime(2025, 2, 15, 23, 47, 12, 961, DateTimeKind.Local).AddTicks(2368), "Javascript", "Javascript blog kategorisidir." });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_CategoryId",

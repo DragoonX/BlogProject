@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlogProject.Entities\BlogProject.Entities.csproj" />
-    <ProjectReference Include="..\BlogProject.Shared\BlogProject.Shared.csproj" />
   </ItemGroup>
 
 </Project>
