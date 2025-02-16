@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlogProject.Shared.Data.Abstract;
+using BlogProject.Shared.Entities.Abstract;
+using System;
 using System.Threading.Tasks;
 
 namespace BlogProject.Data.Abstract
@@ -13,5 +15,7 @@ namespace BlogProject.Data.Abstract
         // _unitOfWork.Comments.AddAsync(comment);
         // _unitOfWork.SaveAsync();
         Task<int> SaveAsync();
+
+        IEntityRepository<T> GetRepository<T>() where T : class, IEntity, new(); // Generic olarak bir GetRepository fonksiyonu oluşturduk.
     }
 }
