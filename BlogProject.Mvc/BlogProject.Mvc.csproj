@@ -8,6 +8,7 @@
     <Content Remove="Areas\Admin\Views\Category\_CategoryAddPartial.cshtml" />
     <Content Remove="Areas\Admin\Views\Category\_CategoryUpdatePartial.cshtml" />
     <Content Remove="Areas\Admin\Views\User\_UserAddPartial.cshtml" />
+    <Content Remove="Areas\Admin\Views\User\_UserUpdatePartial.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +60,7 @@
   <ItemGroup>
     <None Include="Areas\Admin\Views\Category\_CategoryUpdatePartial.cshtml" />
     <None Include="Areas\Admin\Views\Category\_CategoryAddPartial.cshtml" />
+    <None Include="Areas\Admin\Views\User\_UserUpdatePartial.cshtml" />
     <None Include="Areas\Admin\Views\User\_UserAddPartial.cshtml" />
   </ItemGroup>
 
