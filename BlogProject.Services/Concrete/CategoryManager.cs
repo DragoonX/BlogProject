@@ -26,7 +26,7 @@ namespace BlogProject.Services.Concrete
             var category = _mapper.Map<Category>(categoryAddDto);
             category.CreatedByName = createdByName;
             category.ModifiedByName = createdByName;
-            var addedCategory = await _unitOfWork.Categories.AddAsync(category);
+            var addedCategory = await _unitOfWork.GetRepository<Category>().AddAsync(category);
             await _unitOfWork.SaveAsync(); //thread safe olduğu için ContinueWith ile kullanım yerine bu şekilde kullanılmalıdır.
             return new DataResult<CategoryDto>(ResultStatus.Success, $"{categoryAddDto.Name} adlı kategori başarıyla eklenmiştir.", new CategoryDto
             {
@@ -38,14 +38,15 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryDto>> Delete(int categoryId, string modifiedByName)
         {
-            var category = await _unitOfWork.Categories.GetAsync(x => x.Id == categoryId);
+            var category = await _unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == categoryId);
 
             if (category != null)
             {
+                category.IsActive = false;
                 category.IsDeleted = true;
                 category.ModifiedByName = modifiedByName;
                 category.ModifiedDate = DateTime.Now;
-                var deletedCategory = await _unitOfWork.Categories.UpdateAsync(category);
+                var deletedCategory = await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
                 await _unitOfWork.SaveAsync();
                 return new DataResult<CategoryDto>(ResultStatus.Success, $"{deletedCategory.Name} adlı kategori başarıyla silinmiştir.", new CategoryDto
                 {
@@ -64,7 +65,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryDto>> Get(int categoryId)
         {
-            var category = await _unitOfWork.Categories.GetAsync(x => x.Id == categoryId, y => y.Articles);
+            var category = await _unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == categoryId, y => y.Articles);
             if (category != null)
             {
                 return new DataResult<CategoryDto>(ResultStatus.Success, new CategoryDto
@@ -83,7 +84,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAll()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync(null, x => x.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(null, x => x.Articles);
 
             if (categories.Count > -1)
             {
@@ -103,7 +104,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllByNonDeleted()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync(x => !x.IsDeleted, y => y.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted, y => y.Articles);
 
             if (categories.Count > -1)
             {
@@ -123,7 +124,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAndActive()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync(x => !x.IsDeleted && x.IsActive, y => y.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted && x.IsActive, y => y.Articles);
 
             if (categories.Count > -1)
             {
@@ -138,11 +139,11 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDto(int categoryId)
         {
-            var result = await _unitOfWork.Categories.AnyAsync(c => c.Id == categoryId);
+            var result = await _unitOfWork.GetRepository<Category>().AnyAsync(c => c.Id == categoryId);
 
             if (result)
             {
-                var category = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryId);
+                var category = await _unitOfWork.GetRepository<Category>().GetAsync(c => c.Id == categoryId);
                 var categoryUpdateDto = _mapper.Map<CategoryUpdateDto>(category);
                 return new DataResult<CategoryUpdateDto>(ResultStatus.Success, categoryUpdateDto);
             }
@@ -154,11 +155,11 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IResult> HardDelete(int categoryId)
         {
-            var category = await _unitOfWork.Categories.GetAsync(x => x.Id == categoryId);
+            var category = await _unitOfWork.GetRepository<Category>().GetAsync(x => x.Id == categoryId);
 
             if (category != null)
             {
-                await _unitOfWork.Categories.DeleteAsync(category);
+                await _unitOfWork.GetRepository<Category>().DeleteAsync(category);
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, $"{category.Name} adlı kategori başarıyla veritabanından silinmiştir.");
             }
@@ -167,10 +168,10 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryDto>> Update(CategoryUpdateDto categoryUpdateDto, string modifiedByName)
         {
-            var oldCategory = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryUpdateDto.Id);
-            var category = _mapper.Map(categoryUpdateDto,oldCategory);
+            var oldCategory = await _unitOfWork.GetRepository<Category>().GetAsync(c => c.Id == categoryUpdateDto.Id);
+            var category = _mapper.Map(categoryUpdateDto, oldCategory);
             category.ModifiedByName = modifiedByName;
-            var updatedCategory = await _unitOfWork.Categories.UpdateAsync(category);
+            var updatedCategory = await _unitOfWork.GetRepository<Category>().UpdateAsync(category);
             await _unitOfWork.SaveAsync();
             return new DataResult<CategoryDto>(ResultStatus.Success, $"{categoryUpdateDto.Name} adlı kategori başarıyla güncellenmiştir.", new CategoryDto
             {

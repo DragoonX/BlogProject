@@ -21,6 +21,5 @@ namespace BlogProject.Shared.Data.Abstract
         // Any fonksiyonu, bir kaydın daha önce eklenip eklenilmediğini kontrol eder.
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         Task<int> CountAsync(Expression<Func<T, bool>> predicate);
-
     }
 }

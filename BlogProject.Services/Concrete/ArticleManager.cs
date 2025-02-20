@@ -28,21 +28,21 @@ namespace BlogProject.Services.Concrete
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
             article.UserId = 1;
-            await _unitOfWork.Articles.AddAsync(article);
+            await _unitOfWork.GetRepository<Article>().AddAsync(article);
             await _unitOfWork.SaveAsync();
             return new Result(ResultStatus.Success, $"{articleAddDto.Title} başlıklı makale başarıyla eklenmiştir.");
         }
 
         public async Task<IResult> Delete(int articleId, string modifiedByName)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(x => x.Id == articleId);
+            var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == articleId);
             if (result)
             {
-                var article = await _unitOfWork.Articles.GetAsync(x => x.Id == articleId);
+                var article = await _unitOfWork.GetRepository<Article>().GetAsync(x => x.Id == articleId);
                 article.IsDeleted = true;
                 article.ModifiedByName = modifiedByName;
                 article.ModifiedDate = DateTime.Now;
-                await _unitOfWork.Articles.UpdateAsync(article);
+                await _unitOfWork.GetRepository<Article>().UpdateAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, $"{article.Title} başlıklı makale başarıyla silinmiştir.");
             }
@@ -51,7 +51,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<ArticleDto>> Get(int articleId)
         {
-            var article = await _unitOfWork.Articles.GetAsync(x => x.Id == articleId, y => y.User, y => y.Category);
+            var article = await _unitOfWork.GetRepository<Article>().GetAsync(x => x.Id == articleId, y => y.User, y => y.Category);
 
             if (article != null)
             {
@@ -67,7 +67,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAll()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(null, x => x.User, x => x.Category);
+            var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(null, x => x.User, x => x.Category);
 
             if (articles.Count > -1)
             {
@@ -83,11 +83,11 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByCategory(int categoryId)
         {
-            var result = await _unitOfWork.Categories.AnyAsync(x => x.Id == categoryId);
+            var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == categoryId);
 
             if (result)
             {
-                var articles = await _unitOfWork.Articles.GetAllAsync(x => x.CategoryId == categoryId && !x.IsDeleted && x.IsActive, y => y.Category);
+                var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(x => x.CategoryId == categoryId && !x.IsDeleted && x.IsActive, y => y.Category);
 
                 if (articles.Count > -1)
                 {
@@ -105,7 +105,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByNonDeleted()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(x => !x.IsDeleted, x => x.User, x => x.Category);
+            var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted, x => x.User, x => x.Category);
 
             if (articles.Count > -1)
             {
@@ -121,7 +121,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAndActive()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(x => !x.IsDeleted && x.IsActive, x => x.User, x => x.Category);
+            var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted && x.IsActive, x => x.User, x => x.Category);
 
             if (articles.Count > -1)
             {
@@ -137,11 +137,11 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IResult> HardDelete(int articleId)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(x => x.Id == articleId);
+            var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == articleId);
             if (result)
             {
-                var article = await _unitOfWork.Articles.GetAsync(x => x.Id == articleId);
-                await _unitOfWork.Articles.DeleteAsync(article);
+                var article = await _unitOfWork.GetRepository<Article>().GetAsync(x => x.Id == articleId);
+                await _unitOfWork.GetRepository<Article>().DeleteAsync(article);
                 await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, $"{article.Title} başlıklı makale başarıyla veritabanından silinmiştir.");
             }
@@ -152,7 +152,7 @@ namespace BlogProject.Services.Concrete
         {
             var article = _mapper.Map<Article>(articleUpdateDto);
             article.ModifiedByName = modifiedByName;
-            await _unitOfWork.Articles.UpdateAsync(article);
+            await _unitOfWork.GetRepository<Article>().UpdateAsync(article);
             await _unitOfWork.SaveAsync();
             return new Result(ResultStatus.Success, $"{articleUpdateDto.Title} başlıklı makale başarıyla güncellenmiştir.");
         }

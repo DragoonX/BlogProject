@@ -16,6 +16,5 @@ namespace BlogProject.Shared.Entities.Abstract
         public virtual string CreatedByName { get; set; } = "Admin";
         public virtual string ModifiedByName { get; set; } = "Admin";
         public virtual string Note { get; set; }
-
     }
 }

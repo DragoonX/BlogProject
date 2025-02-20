@@ -4,7 +4,10 @@ using BlogProject.Data.Concrete.EntityFramework.Repositories;
 using BlogProject.Shared.Data.Abstract;
 using BlogProject.Shared.Data.Concrete.EntityFramework;
 using BlogProject.Shared.Entities.Abstract;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogProject.Data.Concrete
@@ -20,12 +23,6 @@ namespace BlogProject.Data.Concrete
         {
             _context = context;
         }
-
-        public IArticleRepository Articles => _articleRepository ?? new EfArticleRepository(_context);
-
-        public ICategoryRepository Categories => _categoryRepository ?? new EfCategoryRepository(_context);
-
-        public ICommentRepository Comments => _commentRepository ?? new EfCommentRepository(_context);
 
         // Generic olarak bir GetRepository fonksiyonu oluşturduk.
         public IEntityRepository<T> GetRepository<T>() where T : class, IEntity, new()
@@ -85,6 +82,16 @@ namespace BlogProject.Data.Concrete
                 throw;
             }
             return result;
+        }
+
+        public IQueryable<T> QueryableRepository<T>() where T : class, IEntity, new()
+        {
+            return _context.Set<T>();
+        }
+
+        public IEnumerable<T> ExecuteSql<T>(string sql) where T : class, IEntity, new()
+        {
+            return _context.Set<T>().FromSqlRaw(sql).AsEnumerable();
         }
     }
 }
