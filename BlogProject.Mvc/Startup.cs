@@ -41,9 +41,8 @@ namespace BlogProject.Mvc
                     SecurePolicy = CookieSecurePolicy.SameAsRequest //gerçek iþ sýrasýnda always seçilmelidir.
                 };
                 options.SlidingExpiration = true; //kullanýcý ayný cookie ayarlarý ile belirtilen süre içinde giriþ yapabilir.
-                options.ExpireTimeSpan = System.TimeSpan.FromDays(7);
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
                 options.AccessDeniedPath = new PathString("/Admin/User/AccessDenied"); //giriþ yapan fakat yetkisi olmayan kullanýcýlarý ilgili adrese yönlendirir.
-
             });
         }
 

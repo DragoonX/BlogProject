@@ -34,7 +34,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -70,8 +70,8 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return View("UserLogin");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Authorize]
         public async Task<JsonResult> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -87,15 +87,15 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return Json(userListDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Authorize]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
             if (ModelState.IsValid)
@@ -139,7 +139,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return Json(userAddAjaxModelStateErrorModel);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<JsonResult> Delete(int userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -171,8 +171,8 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Authorize]
         public async Task<PartialViewResult> Update(int userId)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -181,8 +181,8 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return PartialView("_UserUpdatePartial", userUpdateDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
             if (ModelState.IsValid)
@@ -247,7 +247,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
@@ -262,7 +262,8 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             }
             return fileName;
         }
-        [Authorize]
+
+        [Authorize(Roles = "Admin,Editor")]
         public bool ImageDelete(string pictureName)
         {
             string wwwroot = _env.WebRootPath;

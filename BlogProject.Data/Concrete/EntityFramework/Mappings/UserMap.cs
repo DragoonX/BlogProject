@@ -47,7 +47,6 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
             // Each User can have many entries in the UserRole join table
             builder.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
-
             var adminUser = new User
             {
                 Id = 1,
@@ -58,11 +57,11 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
                 EmailConfirmed = true,
                 PhoneNumber = "+905555555555",
                 PhoneNumberConfirmed = true,
-                Picture = "defaultUser.png",
+                Picture = "defaultUser.jpg",
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             adminUser.PasswordHash = CreatePasswordHash(adminUser,"adminadmin");
-            
+
             var editorUser = new User
             {
                 Id = 2,
@@ -73,7 +72,7 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
                 EmailConfirmed = true,
                 PhoneNumber = "+905551234567",
                 PhoneNumberConfirmed = true,
-                Picture = "defaultUser.png",
+                Picture = "defaultUser.jpg",
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             editorUser.PasswordHash = CreatePasswordHash(editorUser, "neweditor22");
