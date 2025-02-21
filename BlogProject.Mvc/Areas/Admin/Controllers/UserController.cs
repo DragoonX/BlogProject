@@ -4,6 +4,7 @@ using BlogProject.Entities.Dtos;
 using BlogProject.Mvc.Areas.Admin.Models;
 using BlogProject.Shared.Utilities.Extensions;
 using BlogProject.Shared.Utilities.Results.ComplexTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -21,16 +22,19 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
 
-        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper)
+        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _env = env;
             _mapper = mapper;
+            _signInManager = signInManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -42,6 +46,32 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult Login()
+        {
+            return View("UserLogin");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UserLoginDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(dto.Email);
+                if (user != null)
+                {
+                    var identityResult = await _signInManager.PasswordSignInAsync(user, dto.Password, dto.RememberMe, false);
+                    if (identityResult.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+                }
+                ModelState.AddModelError("", "E-posta adresi veya şifre hatalı.");
+            }
+            return View("UserLogin");
+        }
+
+        [HttpGet]
+        [Authorize]
         public async Task<JsonResult> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -58,12 +88,14 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Add()
         {
             return PartialView("_UserAddPartial");
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
             if (ModelState.IsValid)
@@ -107,6 +139,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return Json(userAddAjaxModelStateErrorModel);
         }
 
+        [Authorize]
         public async Task<JsonResult> Delete(int userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -139,6 +172,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<PartialViewResult> Update(int userId)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -148,6 +182,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
             if (ModelState.IsValid)
@@ -212,6 +247,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             }
         }
 
+        [Authorize]
         public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
             string wwwroot = _env.WebRootPath;
@@ -226,7 +262,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             }
             return fileName;
         }
-
+        [Authorize]
         public bool ImageDelete(string pictureName)
         {
             string wwwroot = _env.WebRootPath;

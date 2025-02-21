@@ -3,6 +3,7 @@ using BlogProject.Mvc.Areas.Admin.Models;
 using BlogProject.Services.Abstract;
 using BlogProject.Shared.Utilities.Extensions;
 using BlogProject.Shared.Utilities.Results.ComplexTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace BlogProject.Mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
