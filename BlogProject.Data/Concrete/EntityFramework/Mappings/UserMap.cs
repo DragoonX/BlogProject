@@ -1,6 +1,8 @@
 ﻿using BlogProject.Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -44,6 +46,44 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 
             // Each User can have many entries in the UserRole join table
             builder.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+
+
+            var adminUser = new User
+            {
+                Id = 1,
+                UserName = "admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM",
+                EmailConfirmed = true,
+                PhoneNumber = "+905555555555",
+                PhoneNumberConfirmed = true,
+                Picture = "defaultUser.png",
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            adminUser.PasswordHash = CreatePasswordHash(adminUser,"adminadmin");
+            
+            var editorUser = new User
+            {
+                Id = 2,
+                UserName = "editor",
+                NormalizedUserName = "EDITOR",
+                Email = "editor@xmail.com",
+                NormalizedEmail = "EDITOR@XMAIL.COM",
+                EmailConfirmed = true,
+                PhoneNumber = "+905551234567",
+                PhoneNumberConfirmed = true,
+                Picture = "defaultUser.png",
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            editorUser.PasswordHash = CreatePasswordHash(editorUser, "neweditor22");
+
+            builder.HasData(adminUser, editorUser); // Seed the database with the admin and editor users
+        }
+
+        private static string CreatePasswordHash(User user, string password)
+        {
+            return new PasswordHasher<User>().HashPassword(user, password);
         }
     }
 }

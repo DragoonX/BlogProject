@@ -1,6 +1,7 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {
@@ -32,6 +33,23 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 
             // Each Role can have many associated RoleClaims
             builder.HasMany<RoleClaim>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
+
+            builder.HasData(
+                new Role
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = Guid.NewGuid().ToString(),
+                },
+                new Role
+                {
+                    Id = 2,
+                    Name = "Editor",
+                    NormalizedName = "EDITOR",
+                    ConcurrencyStamp = Guid.NewGuid().ToString(),
+                }
+            );
         }
     }
 }
