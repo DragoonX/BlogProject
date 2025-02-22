@@ -263,6 +263,12 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return fileName;
         }
 
+        [HttpGet]
+        public ViewResult AccessDenied()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "Admin,Editor")]
         public bool ImageDelete(string pictureName)
         {
