@@ -367,7 +367,7 @@
                     }
                 },
                 error: function (err) {
-                    console.log(err);
+                    toastr.error(`${err.responseText}`, "Hata!");
                 }
             });
         });
@@ -410,7 +410,6 @@
                         }
                     },
                     error: function (err) {
-                        console.log(err);
                         toastr.error(`${err.responseText}`, "Hata!");
                     }
                 })
@@ -446,8 +445,7 @@
                 contentType: false,
                 success: function (data) {
                     const userUpdateAjaxModel = jQuery.parseJSON(data);
-                    console.log(userUpdateAjaxModel);
-                    const id = userUpdateAjaxModel.UserDto.User.Id;
+                    const id = userUpdateAjaxModel?.UserDto?.User?.Id;
                     const tableRow = $(`[name="${id}"]`);
                     const newFormBody = $(".modal-body", userUpdateAjaxModel.userUpdatePartial);
                     placeHolderDiv.find(".modal-body").replaceWith(newFormBody);
@@ -480,7 +478,7 @@
                     }
                 },
                 error: function (err) {
-                    console.log(err);
+                    toastr.error(`${err.responseText}`, "Hata!");
                 }
             });
 
