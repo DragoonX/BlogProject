@@ -2,6 +2,7 @@
 using BlogProject.Entities.Concrete;
 using BlogProject.Entities.Dtos;
 using BlogProject.Mvc.Areas.Admin.Models;
+using BlogProject.Mvc.Helpers.Abstract;
 using BlogProject.Shared.Utilities.Extensions;
 using BlogProject.Shared.Utilities.Results.ComplexTypes;
 using Microsoft.AspNetCore.Authorization;
@@ -23,15 +24,15 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
+        private readonly IImageHelper _imageHelper;
 
-        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper, SignInManager<User> signInManager)
+        public UserController(UserManager<User> userManager, IWebHostEnvironment env, IMapper mapper, SignInManager<User> signInManager, IImageHelper imageHelper)
         {
             _userManager = userManager;
-            _env = env;
             _mapper = mapper;
             _signInManager = signInManager;
+            _imageHelper = imageHelper;
         }
 
         [Authorize(Roles = "Admin")]
@@ -108,7 +109,11 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                userAddDto.Picture = await ImageUpload(userAddDto.UserName, userAddDto.PictureFile);
+                var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userAddDto.UserName, userAddDto.PictureFile);
+                userAddDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
+                    ? uploadedImageDtoResult.Data.FullName
+                    : "userImages/defaultUser.jpg";
+
                 var user = _mapper.Map<User>(userAddDto);
                 var result = await _userManager.CreateAsync(user, userAddDto.Password);
                 if (result.Succeeded)
@@ -201,7 +206,10 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
 
                 if (userUpdateDto.Picture != null)
                 {
-                    userUpdateDto.Picture = await ImageUpload(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
+                        ? uploadedImageDtoResult.Data.FullName
+                        : "userImages/defaultUser.jpg";
                     isNewPictureUploaded = true;
                 }
                 var updatedUser = _mapper.Map(userUpdateDto, oldUser);
@@ -277,7 +285,11 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
 
                 if (userUpdateDto.Picture != null)
                 {
-                    userUpdateDto.Picture = await ImageUpload(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    var uploadedImageDtoResult = await _imageHelper.UploadUserImage(userUpdateDto.UserName, userUpdateDto.PictureFile);
+                    userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
+                        ? uploadedImageDtoResult.Data.FullName
+                        : "userImages/defaultUser.jpg";
+
                     if (oldUserPicture != "defaultUser.jpg")
                     {
                         isNewPictureUploaded = true;
@@ -329,6 +341,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                         await _signInManager.SignOutAsync();
                         await _signInManager.PasswordSignInAsync(user, dto.NewPassword, true, false);
                         TempData.Add("SuccessMessage", "Şifreniz başarıyla değiştirilmiştir.");
+                        return View();
                     }
                     else
                     {
@@ -346,22 +359,6 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return View(dto);
         }
 
-        [Authorize(Roles = "Admin,Editor")]
-        public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
-        {
-            string wwwroot = _env.WebRootPath;
-            //string fileName2 = Path.GetFileNameWithoutExtension(userAddDto.Picture.FileName);
-            string fileExtension = Path.GetExtension(pictureFile.FileName);
-            DateTime dateTime = DateTime.Now;
-            string fileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
-            var path = Path.Combine($"{wwwroot}/img", fileName);
-            await using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                await pictureFile.CopyToAsync(stream);
-            }
-            return fileName;
-        }
-
         [HttpGet]
         public ViewResult AccessDenied()
         {
@@ -371,14 +368,15 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         [Authorize(Roles = "Admin,Editor")]
         public bool ImageDelete(string pictureName)
         {
-            string wwwroot = _env.WebRootPath;
-            var file = Path.Combine($"{wwwroot}/img", pictureName);
-            if (System.IO.File.Exists(file))
-            {
-                System.IO.File.Delete(file);
-                return true;
-            }
-            return false;
+            //string wwwroot = _env.WebRootPath;
+            //var file = Path.Combine($"{wwwroot}/img", pictureName);
+            //if (System.IO.File.Exists(file))
+            //{
+            //    System.IO.File.Delete(file);
+            //    return true;
+            //}
+            //return false;
+            return true;
         }
     }
 }

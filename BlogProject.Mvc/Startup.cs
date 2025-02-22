@@ -1,4 +1,6 @@
 using BlogProject.Mvc.AutoMapper.Profiles;
+using BlogProject.Mvc.Helpers.Abstract;
+using BlogProject.Mvc.Helpers.Concrete;
 using BlogProject.Services.AutoMapper.Profiles;
 using BlogProject.Services.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +31,7 @@ namespace BlogProject.Mvc
             services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile)); //derlenme sýrasýnda Automapper bu projedeki sýnýflarý tarar.
             services.LoadMyServices();
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = new PathString("/Admin/User/Login");
