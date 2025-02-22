@@ -305,6 +305,47 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return View(userUpdateDto);
         }
 
+        [Authorize]
+        [HttpGet]
+        public ViewResult PasswordChange()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> PasswordChange(UserPasswordChangeDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var isVerified = await _userManager.CheckPasswordAsync(user, dto.CurrentPassword);
+                if (isVerified)
+                {
+                    var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.UpdateSecurityStampAsync(user);
+                        await _signInManager.SignOutAsync();
+                        await _signInManager.PasswordSignInAsync(user, dto.NewPassword, true, false);
+                        TempData.Add("SuccessMessage", "Şifreniz başarıyla değiştirilmiştir.");
+                    }
+                    else
+                    {
+                        foreach (var err in result.Errors)
+                        {
+                            ModelState.AddModelError("", err.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Mevcut şifreniz hatalıdır. Lütfen kontrol ediniz.");
+                }
+            }
+            return View(dto);
+        }
+
         [Authorize(Roles = "Admin,Editor")]
         public async Task<string> ImageUpload(string userName, IFormFile pictureFile)
         {
