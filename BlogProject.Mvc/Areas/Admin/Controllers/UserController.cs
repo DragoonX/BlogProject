@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -210,7 +209,10 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                     userUpdateDto.Picture = uploadedImageDtoResult.ResultStatus == ResultStatus.Success
                         ? uploadedImageDtoResult.Data.FullName
                         : "userImages/defaultUser.jpg";
-                    isNewPictureUploaded = true;
+                    if (oldUserPicture != "userImages/defaultUser.jpg")
+                    {
+                        isNewPictureUploaded = true;
+                    }
                 }
                 var updatedUser = _mapper.Map(userUpdateDto, oldUser);
                 var result = await _userManager.UpdateAsync(updatedUser);
@@ -218,7 +220,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                 {
                     if (isNewPictureUploaded)
                     {
-                        ImageDelete(oldUserPicture);
+                        _imageHelper.Delete(oldUserPicture);
                     }
                     var userUpdateAjaxModel = JsonSerializer.Serialize(new UserUpdateAjaxViewModel
                     {
@@ -290,7 +292,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                         ? uploadedImageDtoResult.Data.FullName
                         : "userImages/defaultUser.jpg";
 
-                    if (oldUserPicture != "defaultUser.jpg")
+                    if (oldUserPicture != "userImages/defaultUser.jpg")
                     {
                         isNewPictureUploaded = true;
                     }
@@ -301,7 +303,7 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
                 {
                     if (isNewPictureUploaded)
                     {
-                        ImageDelete(oldUserPicture);
+                        _imageHelper.Delete(oldUserPicture);
                     }
                     TempData.Add("SuccessMessage", $"{updatedUser.UserName} adlı kullanıcı başarıyla güncellenmiştir.");
                 }
@@ -365,18 +367,5 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin,Editor")]
-        public bool ImageDelete(string pictureName)
-        {
-            //string wwwroot = _env.WebRootPath;
-            //var file = Path.Combine($"{wwwroot}/img", pictureName);
-            //if (System.IO.File.Exists(file))
-            //{
-            //    System.IO.File.Delete(file);
-            //    return true;
-            //}
-            //return false;
-            return true;
-        }
     }
 }
