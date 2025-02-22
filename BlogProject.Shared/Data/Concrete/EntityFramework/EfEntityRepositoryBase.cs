@@ -11,7 +11,7 @@ namespace BlogProject.Shared.Data.Concrete.EntityFramework
 {
     public class EfEntityRepositoryBase<TEntity> : IEntityRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        private readonly DbContext _context;
+        protected readonly DbContext _context; //custom repositorylerde context'e erişmek için protected tanımlanır.
 
         public EfEntityRepositoryBase(DbContext context)
         {
@@ -42,10 +42,9 @@ namespace BlogProject.Shared.Data.Concrete.EntityFramework
         public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
+
+            query = query.Where(predicate);
+
             if (includeProperties.Any())
             {
                 foreach (var includeProperty in includeProperties)
