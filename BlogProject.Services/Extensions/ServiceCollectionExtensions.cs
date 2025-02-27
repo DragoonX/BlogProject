@@ -4,15 +4,16 @@ using BlogProject.Data.Concrete.EntityFramework.Contexts;
 using BlogProject.Entities.Concrete;
 using BlogProject.Services.Abstract;
 using BlogProject.Services.Concrete;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogProject.Services.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection)
+        public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection, string connectionString)
         {
-            serviceCollection.AddDbContext<BlogProjectContext>();
+            serviceCollection.AddDbContext<BlogProjectContext>(opt=>opt.UseSqlServer(connectionString));
             serviceCollection.AddIdentity<User, Role>(options =>
             {
                 //user password options
