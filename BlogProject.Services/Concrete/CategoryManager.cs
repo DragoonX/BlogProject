@@ -181,5 +181,25 @@ namespace BlogProject.Services.Concrete
                 Message = Messages.Category.Update(updatedCategory.Name)
             });
         }
+
+        public async Task<IDataResult<int>> Count()
+        {
+            int categories = await _unitOfWork.GetRepository<Category>().CountAsync();
+            if (categories > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, categories);
+            }
+            return new DataResult<int>(ResultStatus.Error, Messages.Category.NotFound(isPlural: true), -1);
+        }
+
+        public async Task<IDataResult<int>> CountByIsDeleted()
+        {
+            int categories = await _unitOfWork.GetRepository<Category>().CountAsync(x => !x.IsDeleted);
+            if (categories > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, categories);
+            }
+            return new DataResult<int>(ResultStatus.Error, Messages.Category.NotFound(isPlural: true), -1);
+        }
     }
 }

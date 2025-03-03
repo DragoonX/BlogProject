@@ -1,10 +1,5 @@
-﻿using BlogProject.Entities.Concrete;
-using BlogProject.Entities.Dtos;
+﻿using BlogProject.Entities.Dtos;
 using BlogProject.Shared.Utilities.Results.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlogProject.Services.Abstract
@@ -20,5 +15,7 @@ namespace BlogProject.Services.Abstract
         Task<IDataResult<CategoryDto>> Update(CategoryUpdateDto categoryUpdateDto, string modifiedByName);
         Task<IDataResult<CategoryDto>> Delete(int categoryId, string modifiedByName);
         Task<IResult> HardDelete(int categoryId);
+        Task<IDataResult<int>> Count();
+        Task<IDataResult<int>> CountByIsDeleted();
     }
 }

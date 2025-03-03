@@ -156,5 +156,25 @@ namespace BlogProject.Services.Concrete
             await _unitOfWork.SaveAsync();
             return new Result(ResultStatus.Success, $"{articleUpdateDto.Title} başlıklı makale başarıyla güncellenmiştir.");
         }
+
+        public async Task<IDataResult<int>> Count()
+        {
+            int articlesCount = await _unitOfWork.GetRepository<Article>().CountAsync();
+            if (articlesCount > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, articlesCount);
+            }
+            return new DataResult<int>(ResultStatus.Error, "Bir hata oluştu.", -1);
+        }
+
+        public async Task<IDataResult<int>> CountByIsDeleted()
+        {
+            int articlesCount = await _unitOfWork.GetRepository<Article>().CountAsync(x => !x.IsDeleted);
+            if (articlesCount > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, articlesCount);
+            }
+            return new DataResult<int>(ResultStatus.Error, "Bir hata oluştu.", -1);
+        }
     }
 }
