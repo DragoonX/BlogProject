@@ -85,7 +85,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAll()
         {
-            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(null, x => x.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync();
 
             if (categories.Count > -1)
             {
@@ -105,7 +105,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllByNonDeleted()
         {
-            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted, y => y.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted);
 
             if (categories.Count > -1)
             {
@@ -125,7 +125,7 @@ namespace BlogProject.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAndActive()
         {
-            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted && x.IsActive, y => y.Articles);
+            var categories = await _unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted);
 
             if (categories.Count > -1)
             {
@@ -192,7 +192,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<int>(ResultStatus.Error, Messages.Category.NotFound(isPlural: true), -1);
         }
 
-        public async Task<IDataResult<int>> CountByIsDeleted()
+        public async Task<IDataResult<int>> CountByNonDeleted()
         {
             int categories = await _unitOfWork.GetRepository<Category>().CountAsync(x => !x.IsDeleted);
             if (categories > -1)

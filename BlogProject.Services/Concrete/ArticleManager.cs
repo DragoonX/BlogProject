@@ -167,7 +167,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<int>(ResultStatus.Error, "Bir hata oluştu.", -1);
         }
 
-        public async Task<IDataResult<int>> CountByIsDeleted()
+        public async Task<IDataResult<int>> CountByNonDeleted()
         {
             int articlesCount = await _unitOfWork.GetRepository<Article>().CountAsync(x => !x.IsDeleted);
             if (articlesCount > -1)
