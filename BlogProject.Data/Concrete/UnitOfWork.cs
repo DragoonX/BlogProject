@@ -1,6 +1,5 @@
 ﻿using BlogProject.Data.Abstract;
 using BlogProject.Data.Concrete.EntityFramework.Contexts;
-using BlogProject.Data.Concrete.EntityFramework.Repositories;
 using BlogProject.Shared.Data.Abstract;
 using BlogProject.Shared.Data.Concrete.EntityFramework;
 using BlogProject.Shared.Entities.Abstract;
