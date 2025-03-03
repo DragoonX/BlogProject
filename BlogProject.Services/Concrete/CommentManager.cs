@@ -17,7 +17,7 @@ namespace BlogProject.Services.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IDataResult<int>> Count()
+        public async Task<IDataResult<int>> CountAsync()
         {
             int commentCount = await _unitOfWork.GetRepository<Comment>().CountAsync();
             if (commentCount > -1)
@@ -27,7 +27,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<int>(ResultStatus.Error, "Beklenmeyen bir hata ile karşılaşıldı.", -1);
         }
 
-        public async Task<IDataResult<int>> CountByNonDeleted()
+        public async Task<IDataResult<int>> CountByNonDeletedAsync()
         {
             int commentCount = await _unitOfWork.GetRepository<Comment>().CountAsync(x => !x.IsDeleted);
             if (commentCount > -1)

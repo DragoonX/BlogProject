@@ -22,7 +22,7 @@ namespace BlogProject.Services.Concrete
             _mapper = mapper;
         }
 
-        public async Task<IResult> Add(ArticleAddDto articleAddDto, string createdByName)
+        public async Task<IResult> AddAsync(ArticleAddDto articleAddDto, string createdByName)
         {
             var article = _mapper.Map<Article>(articleAddDto);
             article.CreatedByName = createdByName;
@@ -33,7 +33,7 @@ namespace BlogProject.Services.Concrete
             return new Result(ResultStatus.Success, $"{articleAddDto.Title} başlıklı makale başarıyla eklenmiştir.");
         }
 
-        public async Task<IResult> Delete(int articleId, string modifiedByName)
+        public async Task<IResult> DeleteAsync(int articleId, string modifiedByName)
         {
             var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == articleId);
             if (result)
@@ -49,7 +49,7 @@ namespace BlogProject.Services.Concrete
             return new Result(ResultStatus.Error, "Böyle bir makale bulunamadı.", null);
         }
 
-        public async Task<IDataResult<ArticleDto>> Get(int articleId)
+        public async Task<IDataResult<ArticleDto>> GetAsync(int articleId)
         {
             var article = await _unitOfWork.GetRepository<Article>().GetAsync(x => x.Id == articleId, y => y.User, y => y.Category);
 
@@ -65,7 +65,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<ArticleDto>(ResultStatus.Error, "Böyle bir makale bulunamadı.", null);
         }
 
-        public async Task<IDataResult<ArticleListDto>> GetAll()
+        public async Task<IDataResult<ArticleListDto>> GetAllAsync()
         {
             var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(null, x => x.User, x => x.Category);
 
@@ -81,7 +81,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Makaleler bulunamadı.", null);
         }
 
-        public async Task<IDataResult<ArticleListDto>> GetAllByCategory(int categoryId)
+        public async Task<IDataResult<ArticleListDto>> GetAllByCategoryAsync(int categoryId)
         {
             var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == categoryId);
 
@@ -103,7 +103,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Böyle bir kategori bulunamadı.", null);
         }
 
-        public async Task<IDataResult<ArticleListDto>> GetAllByNonDeleted()
+        public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAsync()
         {
             var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted, x => x.User, x => x.Category);
 
@@ -119,7 +119,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Makaleler bulunamadı.", null);
         }
 
-        public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAndActive()
+        public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAndActiveAsync()
         {
             var articles = await _unitOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted && x.IsActive, x => x.User, x => x.Category);
 
@@ -135,7 +135,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<ArticleListDto>(ResultStatus.Error, "Makaleler bulunamadı.", null);
         }
 
-        public async Task<IResult> HardDelete(int articleId)
+        public async Task<IResult> HardDeleteAsync(int articleId)
         {
             var result = await _unitOfWork.GetRepository<Article>().AnyAsync(x => x.Id == articleId);
             if (result)
@@ -148,7 +148,7 @@ namespace BlogProject.Services.Concrete
             return new Result(ResultStatus.Error, "Böyle bir makale bulunamadı.", null);
         }
 
-        public async Task<IResult> Update(ArticleUpdateDto articleUpdateDto, string modifiedByName)
+        public async Task<IResult> UpdateAsync(ArticleUpdateDto articleUpdateDto, string modifiedByName)
         {
             var article = _mapper.Map<Article>(articleUpdateDto);
             article.ModifiedByName = modifiedByName;
@@ -157,7 +157,7 @@ namespace BlogProject.Services.Concrete
             return new Result(ResultStatus.Success, $"{articleUpdateDto.Title} başlıklı makale başarıyla güncellenmiştir.");
         }
 
-        public async Task<IDataResult<int>> Count()
+        public async Task<IDataResult<int>> CountAsync()
         {
             int articlesCount = await _unitOfWork.GetRepository<Article>().CountAsync();
             if (articlesCount > -1)
@@ -167,7 +167,7 @@ namespace BlogProject.Services.Concrete
             return new DataResult<int>(ResultStatus.Error, "Bir hata oluştu.", -1);
         }
 
-        public async Task<IDataResult<int>> CountByNonDeleted()
+        public async Task<IDataResult<int>> CountByNonDeletedAsync()
         {
             int articlesCount = await _unitOfWork.GetRepository<Article>().CountAsync(x => !x.IsDeleted);
             if (articlesCount > -1)
