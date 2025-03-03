@@ -55,7 +55,7 @@ namespace BlogProject.Mvc.Helpers.Concrete
             DateTime dateTime = DateTime.Now;
             string newFileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtension}";
             var path = Path.Combine($"{_wwwroot}/{imgFolder}/{folderName}", newFileName);
-            await using (FileStream stream = new FileStream(path, FileMode.Create))
+            await using (FileStream stream = new(path, FileMode.Create))
             {
                 await pictureFile.CopyToAsync(stream);
             }
@@ -68,7 +68,6 @@ namespace BlogProject.Mvc.Helpers.Concrete
                 Path = path,
                 Size = pictureFile.Length
             });
-
         }
     }
 }

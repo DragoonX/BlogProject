@@ -27,7 +27,7 @@ namespace BlogProject.Shared.Utilities.Extensions
 
             controller.ViewData.Model = model;
 
-            using StringWriter writer = new();
+            await using StringWriter writer = new();
             try
             {
                 IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
@@ -73,7 +73,7 @@ namespace BlogProject.Shared.Utilities.Extensions
             if (string.IsNullOrEmpty(viewNamePath))
                 viewNamePath = controller.ControllerContext.ActionDescriptor.ActionName;
 
-            using StringWriter writer = new();
+            await using StringWriter writer = new();
             try
             {
                 IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;

@@ -60,7 +60,7 @@ namespace BlogProject.Data.Concrete.EntityFramework.Mappings
                 Picture = "defaultUser.jpg",
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
-            adminUser.PasswordHash = CreatePasswordHash(adminUser,"adminadmin");
+            adminUser.PasswordHash = CreatePasswordHash(adminUser, "adminadmin");
 
             var editorUser = new User
             {

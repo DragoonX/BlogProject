@@ -13,7 +13,6 @@ namespace BlogProject.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
         }
     }
 }

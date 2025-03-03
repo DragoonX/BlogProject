@@ -13,7 +13,7 @@ namespace BlogProject.Services.Extensions
     {
         public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection, string connectionString)
         {
-            serviceCollection.AddDbContext<BlogProjectContext>(opt=>opt.UseSqlServer(connectionString));
+            serviceCollection.AddDbContext<BlogProjectContext>(opt => opt.UseSqlServer(connectionString));
             serviceCollection.AddIdentity<User, Role>(options =>
             {
                 //user password options
@@ -27,7 +27,6 @@ namespace BlogProject.Services.Extensions
                 //user username and email options
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+$";
                 options.User.RequireUniqueEmail = true;
-
             }).AddEntityFrameworkStores<BlogProjectContext>();
 
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();

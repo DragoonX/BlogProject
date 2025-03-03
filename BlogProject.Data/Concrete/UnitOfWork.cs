@@ -15,9 +15,6 @@ namespace BlogProject.Data.Concrete
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BlogProjectContext _context;
-        private EfArticleRepository _articleRepository; //new leme yapılacağı için readonly eklemiyoruz.
-        private EfCategoryRepository _categoryRepository;
-        private EfCommentRepository _commentRepository;
 
         public UnitOfWork(BlogProjectContext context)
         {

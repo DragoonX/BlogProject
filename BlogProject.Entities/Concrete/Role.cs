@@ -1,11 +1,8 @@
-﻿using BlogProject.Shared.Entities.Abstract;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace BlogProject.Entities.Concrete
 {
     public class Role : IdentityRole<int>
     {
-
     }
 }

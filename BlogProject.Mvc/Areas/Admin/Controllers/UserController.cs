@@ -366,6 +366,5 @@ namespace BlogProject.Mvc.Areas.Admin.Controllers
         {
             return View();
         }
-
     }
 }

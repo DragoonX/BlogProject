@@ -1,7 +1,6 @@
 ﻿using BlogProject.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace BlogProject.Data.Concrete.EntityFramework.Mappings
 {

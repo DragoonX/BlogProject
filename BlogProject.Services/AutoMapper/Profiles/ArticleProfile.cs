@@ -10,9 +10,9 @@ namespace BlogProject.Services.AutoMapper.Profiles
         public ArticleProfile()
         {
             CreateMap<ArticleAddDto, Article>()
-                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(x => DateTime.Now));
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now));
             CreateMap<ArticleUpdateDto, Article>()
-                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(x => DateTime.Now));
+                .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom(_ => DateTime.Now));
         }
     }
 }
