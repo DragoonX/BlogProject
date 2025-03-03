@@ -1,5 +1,6 @@
 ﻿using BlogProject.Shared.Data.Abstract;
 using BlogProject.Shared.Entities.Abstract;
+using BlogProject.Shared.Utilities.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,14 +39,14 @@ namespace BlogProject.Shared.Data.Concrete.EntityFramework
         public async Task DeleteAsync(TEntity entity)
         {
             // RemoveAsync adında bir fonksiyon yoktur. Bunu Task.Run() ile sağlıyoruz.
-            await Task.Run(() => { _context.Set<TEntity>().Remove(entity); });
+            await Task.Run(() => _context.Set<TEntity>().Remove(entity));
         }
 
         public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = _context.Set<TEntity>();
 
-            query = query.Where(predicate);
+            query = query.WhereIf(predicate != null, predicate);
 
             if (includeProperties.Any())
             {
@@ -79,7 +80,7 @@ namespace BlogProject.Shared.Data.Concrete.EntityFramework
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             // UpdateAsync adında bir fonksiyon yoktur. Bunu Task.Run() ile sağlıyoruz.
-            await Task.Run(() => { _context.Set<TEntity>().Update(entity); });
+            await Task.Run(() => _context.Set<TEntity>().Update(entity));
             return entity;
         }
     }

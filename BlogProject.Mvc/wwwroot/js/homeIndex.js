@@ -41,6 +41,7 @@
                 "fillVertical": "Hücreleri dikey olarak doldur",
                 "fill": "Bütün hücreleri <i>%d<\/i> ile doldur"
             },
+            "order": [[4, "desc"]],
             "buttons": {
                 "collection": "Koleksiyon <span class=\"ui-button-icon-primary ui-icon ui-icon-triangle-1-s\"><\/span>",
                 "colvis": "Sütun görünürlüğü",
